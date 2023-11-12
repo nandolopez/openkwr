@@ -8,6 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './structurer.component.html',
   styleUrl: './structurer.component.css'
 })
-export class StructurerComponent {
+export default class StructurerComponent {
 
 }

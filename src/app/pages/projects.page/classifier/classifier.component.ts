@@ -8,6 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './classifier.component.html',
   styleUrl: './classifier.component.css'
 })
-export class ClassifierComponent {
+export default class ClassifierComponent {
 
 }

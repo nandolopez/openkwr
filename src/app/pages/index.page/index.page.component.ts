@@ -8,6 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './index.page.component.html',
   styleUrl: './index.page.component.css'
 })
-export class IndexPageComponent {
+export default class IndexPageComponent {
 
 }

@@ -8,6 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cleaner.page.component.html',
   styleUrl: './cleaner.page.component.css'
 })
-export class CleanerPageComponent {
+export default class CleanerPageComponent {
 
 }
