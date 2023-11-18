@@ -1,1 +1,99 @@
-<p>cleaner.page works!</p>
+<article
+  class="bg-slate-500 dark:bg-slate-700 grid grid-cols-3 gap-4 p-4 rounded-xl"
+>
+  <article class="block">
+    <textarea
+      class="bg-slate-400 dark:bg-slate-950 h-full mt-2 p-2 rounded-xl w-full"
+      placeholder="Copy here your keyword research with dirty keywords"
+      [(ngModel)]="textarea_dirt_keywords"
+    ></textarea>
+  </article>
+  <article class="flex flex-col justify-between gap-4">
+    <h2 class="font-bold text-3xl">FILTERS</h2>
+    <section class="flex flex-col gap-4">
+      <h3 class="mb-4 text-xl">
+        Step 1. Remove long tail keywords with +10 words
+      </h3>
+      <button
+        type="button"
+        class="bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="step != 0"
+        (click)="onClickButtonBigLongtail()"
+      >
+        Remove long tail keywords
+      </button>
+      <h3 class="mb-4 text-xl">
+        Step 2. Replace accented characaters (é) for not accented characters
+        (e).
+      </h3>
+      <button
+        type="button"
+        class="bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="step != 1"
+        (click)="onClickButtonReplaceAccents()"
+      >
+        Remove accents
+      </button>
+      <h3 class="mb-4 text-xl">
+        Step 3. Remove unaccepted characters (unicode)
+      </h3>
+      <button
+        type="button"
+        class="bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="step != 2"
+        (click)="onClickButtonClearCharacters()"
+      >
+        Remove characters
+      </button>
+      <h3 class="mb-4 text-xl">Step 4. Remove duplicated.</h3>
+      <button
+        type="button"
+        class="bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="step != 3"
+        (click)="onClickButtonRemoveDuplicates()"
+      >
+        Remove duplicates
+      </button>
+      <h3 class="mb-4 text-xl">Step 5. Remove blacklisted keywords.</h3>
+      <textarea
+        rows="6"
+        class="bg-slate-400 dark:bg-slate-950 mt-2 p-2 rounded-xl w-full"
+        placeholder="Copy here your keyword research with dirty keywords"
+        [(ngModel)]="textarea_black_list"
+      ></textarea>
+      <button
+        type="button"
+        class="bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="step != 4"
+        (click)="onClickButtonRemoveBlacklistedKeywords()"
+      >
+        Remove blacklist
+      </button>
+    </section>
+
+    <section class="block mt-16">
+      <button
+        type="button"
+        class="bg-red-400 dark:bg-red-900 px-4 py-2 rounded-xl text-white"
+        (click)="onClickButtonReset()"
+      >
+        Reset all
+      </button>
+    </section>
+  </article>
+  <article class="flex flex-col gap-4">
+    <button
+      type="button"
+      class="bg-green-400 px-4 py-2 rounded-xl text-white"
+      (click)="onClickButtonCopy()"
+    >
+      Copy results
+    </button>
+    <textarea
+      class="bg-slate-400 dark:bg-slate-950 h-full mt-2 p-2 read-only:opacity-50 rounded-xl w-full"
+      placeholder="Cleaned keywords"
+      readonly
+      [(ngModel)]="textarea_clean_keywords"
+    ></textarea>
+  </article>
+</article>

@@ -18,7 +18,7 @@ export default class ConcatenatorPageComponent {
   public textarea_A: string = 'a';
 
   //CLASSIFICATION B INPUTS
-  public input_checkbox_B: boolean = false;
+  public input_checkbox_B: boolean = true;
   public input_text_B: string = 'B';
   public textarea_B: string = 'b';
 
