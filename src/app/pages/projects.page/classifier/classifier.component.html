@@ -1,1 +1,129 @@
-<p>classifier works!</p>
+<div class="grid grid-cols-3 gap-6">
+  <article class="flex flex-col gap-4 p-4">
+    <section class="flex flex-col gap-4">
+      <div class="flex gap-4">
+        <button
+          type="button"
+          class="bg-amber-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+          [disabled]="Trash.length === 0"
+          (click)="onClickButtonUndoLastAction()"
+        >
+          Undo last action
+        </button>
+        <button
+          type="button"
+          class="bg-red-900 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+          [disabled]="disableRemoveButton"
+          (click)="onClickButtonRemoveKw()"
+        >
+          Remove KWs
+        </button>
+      </div>
+      <input
+        type="search"
+        placeholder="Search unclassified keywords"
+        [(ngModel)]="input_search_unclassified"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-600 rounded w-full"
+        (input)="onInputSearch()"
+      />
+    </section>
+    @for (item of unclassifiedKeywords; track $index) {
+    <div
+      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-2"
+      [ngClass]="{ 'bg-blue-400': item.selected }"
+      (click)="onClickKeyword(item.id)"
+    >
+      <div class="flex gap-4">
+        <input type="checkbox" [(ngModel)]="KEYWORDS[item.id].selected" />
+        <a
+          [href]="
+            'https://google.com/search?q=' + item.keyword.replace(' ', '+')
+          "
+          class="hover:underline"
+        >
+          {{ item.keyword }}
+        </a>
+      </div>
+      <span> {{ item.volume }} </span>
+    </div>
+    } @empty { <p>All keywords have been classified</p> }
+  </article>
+  <article class="bg-blue-700 flex flex-col gap-4 p-4">
+    <section class="flex flex-col gap-4">
+      <button
+        type="button"
+        class="bg-blue-950 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="disableInformational"
+        (click)="onClickButtonClassifyAs('Informational')"
+      >
+        Set selected KWs as Informational
+      </button>
+      <input
+        type="search"
+        placeholder="Search informational keywords"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-600 rounded w-full"
+        [(ngModel)]="input_search_informational"
+        (input)="onInputSearch()"
+      />
+    </section>
+    @for (item of informationalKeywords; track $index) {
+    <div
+      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-2"
+      [ngClass]="{ 'bg-blue-400': item.selected }"
+      (click)="onClickKeyword(item.id)"
+    >
+      <div class="flex gap-4">
+        <input type="checkbox" [(ngModel)]="KEYWORDS[item.id].selected" />
+        <a
+          [href]="
+            'https://google.com/search?q=' + item.keyword.replace(' ', '+')
+          "
+          class="hover:underline"
+        >
+          {{ item.keyword }}
+        </a>
+      </div>
+      <span> {{ item.volume }} </span>
+    </div>
+    }@empty { <p>No keywords classified as informational</p> }
+  </article>
+  <article class="bg-teal-500 flex flex-col gap-4 p-4">
+    <section class="flex flex-col gap-4">
+      <button
+        type="button"
+        class="bg-green-800 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="disableTransactional"
+        (click)="onClickButtonClassifyAs('Transactional')"
+      >
+        Set selected KWs as transactional
+      </button>
+      <input
+        type="search"
+        placeholder="Search transactional keywords"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-600 rounded w-full"
+        [(ngModel)]="input_search_transactional"
+        (input)="onInputSearch()"
+      />
+    </section>
+    @for (item of transactionaldKeywords; track $index) {
+    <div
+      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-2"
+      [ngClass]="{ 'bg-blue-400': item.selected }"
+      (click)="onClickKeyword(item.id)"
+    >
+      <div class="flex gap-4">
+        <input type="checkbox" [(ngModel)]="KEYWORDS[item.id].selected" />
+        <a
+          [href]="
+            'https://google.com/search?q=' + item.keyword.replace(' ', '+')
+          "
+          class="hover:underline"
+        >
+          {{ item.keyword }}
+        </a>
+      </div>
+      <span> {{ item.volume }} </span>
+    </div>
+    }@empty { <p>No keywords classified as transactional</p> }
+  </article>
+</div>

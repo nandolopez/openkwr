@@ -10,5 +10,5 @@ body{
 }
 
 .active{
-    @apply font-bold
+    @apply font-bold border-b pb-2 text-blue-400
 }

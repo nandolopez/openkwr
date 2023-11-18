@@ -1,1 +1,213 @@
-<p>loader works!</p>
+<h1 class="block font-bold my-4 text-2xl text-center w-full">
+  PROJECTS MANAGER
+</h1>
+<div class="grid grid-cols-2 gap-4">
+  <article
+    class="bg-slate-500 dark:bg-slate-700 flex flex-col gap-4 p-4 rounded-xl"
+  >
+    <h2 class="block font-bold text-xl w-full">PROJECT: {{  this.projectName }}</h2>
+    <section class="flex gap-4 justify-center w-full">
+      <button
+        type="button"
+        class="bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="hasActiveProject"
+        (click)="onClickButtonSaveProject()"
+      >
+        Save Project
+      </button>
+      <button
+        type="button"
+        class="bg-green-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="hasActiveProject"
+        (click)="onClickButtonExportToExcel()"
+      >
+        Export to Excel
+      </button>
+    </section>
+  </article>
+  <article
+    class="bg-slate-500 dark:bg-slate-700 flex flex-col gap-4 p-4 rounded-xl"
+  >
+    @if(hasActiveProject){
+    <article class="bg-red-700 dark:bg-red-900 gap-4 p-4 rounded-xl text-white">
+      <strong>Be careful! </strong> Load a project will delete the current
+      active project. Please, export before load a new one
+    </article>
+    }
+    <section class="flex flex-col gap-4 w-full">
+      <label
+        class="appearance-none bg-slate-500 border-2 border-gray-300 border-dashed dark:bg-slate-700 cursor-pointer flex focus:outline-none justify-center h-32 hover:border-gray-400 transition rounded-md px-4 w-full"
+      >
+        <span class="flex items-center space-x-2">
+          <span class="font-medium">
+            Drop JSON or
+            <span class="text-blue-500 underline">browse</span> for load a
+            project
+          </span>
+        </span>
+        <input
+          type="file"
+          name="file_upload"
+          class="hidden"
+          (input)="onInputFileLoadProject($event)"
+          accept=".json"
+        />
+      </label>
+      <p><strong>Status: </strong>{{load_project_status}}</p>
+    </section>
+  </article>
+  <article
+    class="bg-slate-500 col-span-2 dark:bg-slate-700 flex flex-col gap-4 p-4 rounded-xl"
+  >
+    <h2 class="block font-bold text-xl w-full">NEW PROJECT:</h2>
+    <h2 class="block font-bold text-lg w-full">Recommendations:</h2>
+    <ul class="flex flex-col gap-2 list-disc ml-4">
+      <li>
+        Open the CSV with a editor (Excel / notepad / vim / textEdit...) and
+        fill see the CSV Separator
+      </li>
+      <li>You must fill the form for enable the CSV Uploader</li>
+    </ul>
+    @if(hasActiveProject){
+    <article class="bg-red-700 dark:bg-red-900 gap-4 p-4 rounded-xl text-white">
+      <strong>Be careful! </strong> Create a new project will delete the current
+      active project. Please, export before load the CSV.
+    </article>
+    }
+  </article>
+
+  <article
+    class="bg-slate-500 dark:bg-slate-700 grid grid-cols-2 gap-4 p-4 rounded-xl"
+  >
+    <section class="block">
+      <label for="Project">Project name *:</label>
+      <input
+        type="text"
+        name="Project"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-300 rounded w-full"
+        placeholder="Project name"
+        [(ngModel)]="input_project"
+      />
+    </section>
+    <section class="block">
+      <label for="Presets">Presets:</label>
+      <select
+        name="Presets"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-300 rounded w-full"
+        [(ngModel)]="input_select_PRESET"
+        (change)="onInputSelectPreset()"
+      >
+        @for (item of ['None', 'Google Keyword Planner']; track $index) {
+        <option [value]="item">{{ item }}</option>
+        }
+      </select>
+    </section>
+    <section class="block">
+      <label for="Separator">CSV Separator:</label>
+      <select
+        name="Separator"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-300 rounded w-full"
+        [(ngModel)]="input_select_SEPARATOR"
+      >
+        @for (item of ['Tabulations', 'Comma', 'Semicolon', 'Spaces']; track
+        $index) {
+        <option [value]="item">{{ item }}</option>
+        }
+      </select>
+    </section>
+    <section class="block">
+      <label for="StartingLine">CSV Starting line *:</label>
+      <input
+        type="number"
+        min="1"
+        name="StartingLine"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-300 rounded w-full"
+        [(ngModel)]="input_starting_line"
+        (input)="onInputTextOnlyNumbers($event)"
+      />
+    </section>
+    <section class="block">
+      <label for="KW_Column">Keyword Column*:</label>
+      <input
+        type="number"
+        min="1"
+        name="KW_Column"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-300 rounded w-full"
+        [(ngModel)]="input_keyword_column"
+        (input)="onInputTextOnlyNumbers($event)"
+      />
+    </section>
+    <section class="block">
+      <label for="Volume_Column">Volume Column*:</label>
+      <input
+        type="number"
+        min="1"
+        name="Volume_Column"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-300 rounded w-full"
+        [(ngModel)]="input_volume_column"
+        (input)="onInputTextOnlyNumbers($event)"
+      />
+    </section>
+    <section class="block">
+      <label for="Ads_Column">Google ads high range:</label>
+      <input
+        type="number"
+        min="0"
+        name="Ads_Column"
+        class="bg-slate-400 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-300 rounded w-full"
+        [(ngModel)]="input_ads_hight"
+      />
+    </section>
+    <section class="block">
+      <label for="BL_textarea">Black list keywords:</label>
+      <textarea
+      name="BL_textarea"
+        class="bg-slate-400 dark:bg-slate-950 h-24 p-2 rounded-xl w-full"
+        [(ngModel)]="textarea_blacklist"
+      ></textarea>
+    </section>
+    <section class="block">
+      <label for="TRANSACTIONAL_textarea">Transactional keywords:</label>
+      <textarea
+        name="TRANSACTIONAL_textarea"
+        class="bg-slate-400 dark:bg-slate-950 h-24 p-2 rounded-xl w-full"
+        [(ngModel)]="textarea_filter_transactional"
+      ></textarea>
+    </section>
+    <section class="block">
+      <label for="INFO_textarea">Informational keywords:</label>
+      <textarea
+        name="INFO_textarea"
+        class="bg-slate-400 dark:bg-slate-950 h-24 p-2 rounded-xl w-full"
+        [(ngModel)]="textarea_filter_informational"
+      ></textarea>
+    </section>
+  </article>
+  <article
+    class="bg-slate-500 dark:bg-slate-700 flex flex-col gap-4 p-4 rounded-xl"
+  >
+
+    <section class="flex flex-col gap-4 justify-center w-full">
+      <label
+        class="appearance-none bg-slate-500 border-2 border-gray-300 border-dashed dark:bg-slate-700 cursor-pointer flex focus:outline-none justify-center h-32 hover:border-gray-400 transition rounded-md px-4 w-full"
+        [ngClass]="disabledCSVUploader ? 'cursor-not-allowed opacity-50' : ''"
+      >
+        <span class="flex items-center space-x-2">
+          <span class="font-medium">
+            Drop CSV or
+            <span class="text-blue-500 underline">browse</span>
+          </span>
+        </span>
+        <input
+          type="file"
+          name="file_upload"
+          class="hidden"
+          [disabled]="disabledCSVUploader"
+          accept=".csv"
+          (input)="onInputFileLoadCSV($event)"
+        />
+      </label>
+      <p><strong>Status: </strong>{{load_csv_status}}</p>
+    </section>
+  </article>
+</div>
