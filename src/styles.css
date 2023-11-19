@@ -6,9 +6,9 @@
 
 
 body{
-    @apply bg-gray-300 dark:bg-slate-800 dark:text-white text-slate-800 
+    @apply dark:bg-slate-800 dark:text-white text-slate-800 
 }
 
 .active{
-    @apply font-bold border-b pb-2 text-blue-400
+    @apply font-bold border-b pb-2 text-blue-600 dark:text-blue-400
 }

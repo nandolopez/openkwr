@@ -10,7 +10,7 @@
       <button
         type="button"
         class="bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
-        [disabled]="hasActiveProject"
+        [disabled]="!hasActiveProject"
         (click)="onClickButtonSaveProject()"
       >
         Save Project
@@ -18,7 +18,7 @@
       <button
         type="button"
         class="bg-green-600 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
-        [disabled]="hasActiveProject"
+        [disabled]="!hasActiveProject"
         (click)="onClickButtonExportToExcel()"
       >
         Export to Excel
@@ -36,12 +36,12 @@
     }
     <section class="flex flex-col gap-4 w-full">
       <label
-        class="appearance-none bg-slate-500 border-2 border-gray-300 border-dashed dark:bg-slate-700 cursor-pointer flex focus:outline-none justify-center h-32 hover:border-gray-400 transition rounded-md px-4 w-full"
+        class="appearance-none bg-slate-400 border-2 border-gray-300 border-dashed dark:bg-slate-700 cursor-pointer flex focus:outline-none justify-center h-32 hover:border-gray-400 transition rounded-md px-4 w-full"
       >
         <span class="flex items-center space-x-2">
           <span class="font-medium">
             Drop JSON or
-            <span class="text-blue-500 underline">browse</span> for load a
+            <span class="text-blue-700 dark:text-blue-500 underline">browse</span> for load a
             project
           </span>
         </span>
@@ -189,13 +189,12 @@
 
     <section class="flex flex-col gap-4 justify-center w-full">
       <label
-        class="appearance-none bg-slate-500 border-2 border-gray-300 border-dashed dark:bg-slate-700 cursor-pointer flex focus:outline-none justify-center h-32 hover:border-gray-400 transition rounded-md px-4 w-full"
-        [ngClass]="disabledCSVUploader ? 'cursor-not-allowed opacity-50' : ''"
+        class="appearance-none bg-slate-400 border-2 border-gray-300 border-dashed dark:bg-slate-700 cursor-pointer flex focus:outline-none justify-center h-32 hover:border-gray-400 transition rounded-md px-4 w-full"
       >
         <span class="flex items-center space-x-2">
           <span class="font-medium">
             Drop CSV or
-            <span class="text-blue-500 underline">browse</span>
+            <span class="text-blue-700 dark:text-blue-500 underline">browse</span>
           </span>
         </span>
         <input

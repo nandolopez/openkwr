@@ -1,13 +1,17 @@
-<div class="flex flex-col justify-center">
-  <h1 class="block font-bold my-4 text-xl text-center w-full">
+<div class="flex flex-col justify-center my-4">
+  <h1 class="block font-bold mb-4 text-xl text-center w-full">
     What you want structure?
   </h1>
   <div class="flex gap-4 justify-center text-lg w-full">
-      <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
-        >Website</span
-      >
-      <label class="relative inline-flex items-center cursor-pointer">
-      <input type="checkbox" value="" class="sr-only peer" />
+    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+      >Website</span
+    >
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        (click)="onClickToggleStructure()"
+        class="sr-only peer"
+      />
       <div
         class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
       ></div>
@@ -15,7 +19,167 @@
         >Blog</span
       >
     </label>
-    
   </div>
 </div>
-<div class="grid grid-cols-3 gap-4"></div>
+<div class="grid grid-cols-3 gap-4">
+  <article
+    class="bg-slate-300 dark:bg-slate-700 flex flex-col gap-4 p-2 rounded"
+  >
+    <section class="flex justify-between gap-4">
+      <input
+        type="search"
+        placeholder="Search unclassified keywords"
+        [(ngModel)]="INPUT_SEARCH"
+        class="bg-slate-200 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-600 rounded"
+      />
+      <button
+        type="button"
+        class="bg-blue-900 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        [disabled]="disableButtonAddKeywordToURL"
+        (click)="onClickButtonAddKeywordToURL()"
+      >
+        + Add Kws to URL
+      </button>
+    </section>
+    @for (item of FilteredKeywords; track $index) {
+    <div
+      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-4"
+      [ngClass]="{ 'bg-blue-400': item.selected }"
+      (click)="KEYWORDS[item.id].selected = !KEYWORDS[item.id].selected"
+    >
+      <div class="flex gap-4">
+        <input type="checkbox" [(ngModel)]="KEYWORDS[item.id].selected" />
+        <a
+          [href]="
+            'https://google.com/search?q=' + item.keyword.replace(' ', '+')
+          "
+          class="hover:underline"
+        >
+          {{ item.keyword }}
+        </a>
+      </div>
+      <span> {{ item.volume }} </span>
+    </div>
+    } @empty {
+    <p>All keywords have been classified</p>
+    }
+  </article>
+  <article
+    class="bg-slate-400 dark:bg-slate-900 flex flex-col gap-4 p-2 rounded"
+  >
+    <section>
+      <div class="flex flex-col gap-2 w-full">
+        <label for="New"
+          >Type here the URl name (/ and base path sets automatically)</label
+        >
+        <input
+          id="New"
+          type="text"
+          placeholder="Example: brand => sets as https://site.com/brand in URL"
+          [(ngModel)]="INPUT_NEW"
+          class="bg-slate-200 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-600 rounded w-full"
+          (keyup.enter)="onClickButtonAddURL()"
+        />
+      </div>
+    </section>
+    <section class="flex justify-between gap-4">
+      <button
+        type="button"
+        class="bg-blue-900 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+        (click)="onClickButtonAddURL()"
+      >
+        new URL
+      </button>
+      @if(FilteredURLs.length > 2){
+      <div class="flex gap-4">
+        <button
+          type="button"
+          class="bg-blue-900 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+          [disabled]="currentURLID < 2 || currentURLID === FilteredURLs[1].id"
+          (click)="onClickButtonMove(true)"
+        >
+          up
+        </button>
+        <button
+          type="button"
+          class="bg-blue-900 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+          [disabled]="
+            currentURLID === FilteredURLs[0].id ||
+            currentURLID === FilteredURLs[FilteredURLs.length - 1].id
+          "
+          (click)="onClickButtonMove()"
+        >
+          down
+        </button>
+      </div>
+
+      }
+    </section>
+    @for (item of FilteredURLs; track $index) {
+
+    <div
+      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-2"
+      [ngClass]="currentURLID === item.id ? 'bg-sky-200 dark\:bg-blue-400' : ''"
+      (click)="onClickURL(item.id)"
+    >
+      <div class="flex gap-4">
+        @if($index > 0 ){
+        {{ FilteredURLs[0].path }}/}{{ item.path }}
+      </div>
+      <span> {{ item.volume }} </span>
+    </div>
+    }
+  </article>
+  <article class="bg-sky-200 dark:bg-blue-900 flex flex-col p-2 rounded">
+    <section class="bg-teal-500 flex flex-col p-4 rounded w-full">
+      <div class="flex justify-between gap-4">
+        <h3 class="font-lg font-bold">URL Editor</h3>
+        @if(currentURLID > 1){
+        <button
+          type="button"
+          class="bg-red-900 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+          (click)="onClickButtonRemoveURL()"
+        >
+          Remove URL
+        </button>
+        }
+      </div>
+      <label for="Editor">Edit here the URL Path</label>
+      <input
+        id="Editor"
+        type="search"
+        placeholder="Search unclassified keywords"
+        [(ngModel)]="STRUCTURE[currentURLID].path"
+        (input)="onUpdateLocalhost()"
+        class="bg-slate-300 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-600 rounded w-full"
+      />
+    </section>
+    @for (item of AssignedKeywords; track $index) {
+    <div
+      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-4"
+      [ngClass]="{ 'bg-blue-400': item.selected }"
+    >
+      <div class="flex gap-4">
+        <button
+          type="button"
+          class="bg-red-900 disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 rounded-xl text-white"
+          (click)="onClickButtonRemoveKeywordFromURL(item.id)"
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+        </button>
+        <a
+          [href]="
+            'https://google.com/search?q=' + item.keyword.replace(' ', '+')
+          "
+          class="hover:underline"
+        >
+          {{ item.keyword }}
+        </a>
+      </div>
+      <span> {{ item.volume }} </span>
+    </div>
+    } @empty {
+    <p>All keywords have been classified</p>
+    }
+  </article>
+</div>

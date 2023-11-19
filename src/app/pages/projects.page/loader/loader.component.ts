@@ -26,19 +26,15 @@ export default class LoaderComponent implements OnInit {
   public input_keyword_column: number = 1;
   public input_volume_column: number = 1;
   public input_ads_hight: number = 0;
-  /*
+
   public textarea_blacklist: string = '';
   public textarea_filter_informational: string = '';
   public textarea_filter_transactional: string = '';
-  */
-  public textarea_blacklist: string = "inercia, rollersinline, corte inglés, corte ingles, doctor, barovari, euro-sport, patinete, monopatin, patineta, walmat, tres patines , 3 patines, 3patines, wallmat, electricos, canariam, electronicos, oraciones, lata, patatas, películas, película, videos, yeferson, wallapop, segunda mano, cityrun, coppel, canariam, gw, liverpool, ollie, schwinn, usados, viejos, wikipedia, madrid, rodajas, accesorios, protecciones, chuecas, tremenda, zara, rodamientos, sílaba, decathlon, palabra, oms, cerca, converese, por favor, sin, sincelejo, chicago, ingles, inglés, falabella, galeria, primaria, zigna, dibujar, años, pokemon, voladores, canción, tiktok, facebook, survive";
-  public textarea_filter_informational: string = "patinaje, mejores, como, videos, girar, limpiar, rotación, patinar";
-  public textarea_filter_transactional: string = "inercia, rollerblade, inline, corte inglés, corte ingles, doctor, barovari, euro-sport, patinete, monopatin, patineta, walmat, tres patines , 3 patines, 3patines, wallmat, electricos, canariam, electronicos, oraciones, lata, patatas, películas, película, videos, yeferson, wallapop, segunda mano, cityrun, coppel, canariam, gw, liverpool, ollie, schwinn, usados, viejos, wikipedia, madrid, rodajas, accesorios, protecciones, chuecas, tremenda, zara, rodamientos, sílaba, decathlon, palabra, oms, cerca, converese, por favor, sin, sincelejo, chicago, ingles, inglés, falabella, galeria, primaria, zigna, dibujar, años, pokemon, voladores, canción, tiktok, facebook, survive";
-  //Enable / Disable button and Messages
-  get hasActiveProject(){
-    return localStorage.getItem('keywords') !== null
-  }
 
+  //Enable / Disable button and Messages
+  get hasActiveProject() {
+    return localStorage.getItem('keywords') !== null;
+  }
 
   /**
    * FORM VALIDATOR
@@ -55,12 +51,11 @@ export default class LoaderComponent implements OnInit {
 
   // Get active project from localstorage
   get projectName(): string {
-    const result = localStorage.getItem('project')
-    return result === null ? '' : result
+    const result = localStorage.getItem('project');
+    return result === null ? '' : result;
   }
 
   ngOnInit(): void {
-    
     if (this.hasActiveProject) {
       this.load_project_status = 'Project active: ' + this.projectName;
     }
@@ -204,16 +199,14 @@ export default class LoaderComponent implements OnInit {
    * 5. Reload the page
    */
   onInputFileLoadProject = async (event: any) => {
-    
     const file = event.target.files[0];
     const text = await file.text();
     const ImportedData = JSON.parse(text);
     localStorage.setItem('keywords', JSON.stringify(ImportedData.keywords));
     localStorage.setItem('project', ImportedData.project);
     localStorage.setItem('structure', JSON.stringify(ImportedData.structure));
-    
+
     //location.reload();
-    
   };
 
   /**
@@ -357,7 +350,6 @@ export default class LoaderComponent implements OnInit {
         },
       ])
     );
-  
 
     this.input_select_PRESET = 'None';
     this.input_select_SEPARATOR = 'Tabulations';
@@ -370,8 +362,8 @@ export default class LoaderComponent implements OnInit {
     this.textarea_filter_informational = '';
     this.textarea_filter_transactional = '';
     this.load_csv_status = 'CSV Loaded and ready for work';
-    
-    console.log(this.hasActiveProject)
+
+    console.log(this.hasActiveProject);
   };
 
   /**
