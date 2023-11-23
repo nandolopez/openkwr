@@ -74,25 +74,21 @@ export default class ClassifierComponent implements OnInit {
         this.KEYWORDS[index].selected = false;
       }
     });
-    this.input_search_unclassified = '';
-    this.input_search_transactional = '';
-    this.input_search_informational = '';
-    this.KEYWORDS.forEach(
-      (e: IKeyword, index: number) => (this.KEYWORDS[index].selected = false)
-    );
+   
+    this.onResetInputSearch()
     this.onUpdateLocalhost();
   }
 
   onClickKeyword(id: number): void {
     this.KEYWORDS[id].selected = !this.KEYWORDS[id].selected;
+    
     this.onUpdateLocalhost();
   }
 
   onClickButtonUndoLastAction(): void {
-    console.log(this.Trash)
     if (this.last_action_deleted) {
       this.Trash.forEach((e: IKeyword) => {
-        this.KEYWORDS.splice(e.id, 0, {...e, selected: false});
+        this.KEYWORDS.splice(e.id, 0, { ...e, selected: false });
         this.KEYWORDS.forEach(
           (e: IKeyword, index: number) => (this.KEYWORDS[index].id = index)
         );
@@ -104,20 +100,46 @@ export default class ClassifierComponent implements OnInit {
     }
     this.Trash = [];
     this.last_action_deleted = false;
+    this.onUpdateLocalhost()
+    this.onResetInputSearch()
   }
 
+  /**
+   * Event: on click button Remove
+   * 1. Clear de Trash array for make the undo
+   * 2. Get all selected keywords
+   * 3. make abackup of keybords in Trash for recover it in case of do undo.
+   * 4. Remove all selected keywords
+   * 5. Reassign Ids to index position
+   * 6. set last_action is deleted as true
+   */
   onClickButtonRemoveKw(): void {
+    //1. Clear de Trash array for make the undo
     this.Trash = [];
-    const checked = this.KEYWORDS.filter((e: IKeyword) => e.selected);
-    checked.forEach((e: IKeyword) => {
-      this.Trash.push({ ...e });
-      this.KEYWORDS.splice(e.id, 1);
-    });
+
+    //2. Get all selected keywords
+    const checked = this.KEYWORDS.filter((e: IKeyword) => e.selected === true);
+
+    //3. make abackup of keybords in Trash for recover it in case of do undo.
+    this.Trash = [...checked];
+
+    //4. Remove all selected keywords
+    this.KEYWORDS = this.KEYWORDS.filter((e: IKeyword) => e.selected === false);
+
+    //5. Reassign Ids to index position
     this.KEYWORDS.forEach(
       (e: IKeyword, index: number) => (this.KEYWORDS[index].id = index)
     );
-    this.last_action_deleted = true;
-    console.log(this.Trash)
+
+    //6. set last_action is deleted as true
+
+    // set all undo keywords as unselected
+    this.Trash.forEach(
+      (e: IKeyword, index: number) => (this.Trash[index].selected = false)
+    );
+    this.last_action_deleted = true;   
+    this.onResetInputSearch()
+    this.onUpdateLocalhost()
   }
 
   onInputSearch(): void {
@@ -141,7 +163,17 @@ export default class ClassifierComponent implements OnInit {
     }
   }
 
+  onResetInputSearch(){
+    this.KEYWORDS.forEach(
+      (e: IKeyword, index: number) => (this.KEYWORDS[index].selected = false)
+    );
+    this.input_search_informational = '';
+    this.input_search_transactional = '';
+    this.input_search_unclassified = '';
+  }
+
   onUpdateLocalhost(): void {
+   
     localStorage.setItem('keywords', JSON.stringify(this.KEYWORDS));
   }
 

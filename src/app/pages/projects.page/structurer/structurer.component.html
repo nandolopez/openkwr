@@ -41,9 +41,10 @@
         + Add Kws to URL
       </button>
     </section>
+    <ul class="divide-y-2 divide-slate-800 dark:divide-white">
     @for (item of FilteredKeywords; track $index) {
-    <div
-      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-4"
+    <li
+      class="cursor-pointer flex justify-between items-center p-2 py-3"
       [ngClass]="{ 'bg-blue-400': item.selected }"
       (click)="KEYWORDS[item.id].selected = !KEYWORDS[item.id].selected"
     >
@@ -54,18 +55,20 @@
             'https://google.com/search?q=' + item.keyword.replace(' ', '+')
           "
           class="hover:underline"
+          target="_blank"
         >
           {{ item.keyword }}
         </a>
       </div>
       <span> {{ item.volume }} </span>
-    </div>
+    </li>
     } @empty {
-    <p>All keywords have been classified</p>
+    <li>All keywords have been classified</li>
     }
+  </ul>
   </article>
   <article
-    class="bg-slate-400 dark:bg-slate-900 flex flex-col gap-4 p-2 rounded"
+    class="bg-slate-300 dark:bg-slate-900 flex flex-col gap-4 p-2 rounded"
   >
     <section>
       <div class="flex flex-col gap-2 w-full">
@@ -115,22 +118,25 @@
 
       }
     </section>
-    @for (item of FilteredURLs; track $index) {
+    <ul class="divide-y-2 divide-slate-800 dark:divide-white">
+      @for (item of FilteredURLs; track $index) {
+  
+      <li
+        class=" cursor-pointer flex justify-between p-2"
+        [ngClass]="currentURLID === item.id ? 'bg-blue-300 dark\:bg-blue-400' : ''"
+        (click)="onClickURL(item.id)"
+      >
+        <div class="flex gap-4">
+          @if($index > 0 ){
+          {{ FilteredURLs[0].path }}/}{{ item.path }}
+        </div>
+        <span> {{ item.volume }} </span>
+      </li>
+      }
 
-    <div
-      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-2"
-      [ngClass]="currentURLID === item.id ? 'bg-sky-200 dark\:bg-blue-400' : ''"
-      (click)="onClickURL(item.id)"
-    >
-      <div class="flex gap-4">
-        @if($index > 0 ){
-        {{ FilteredURLs[0].path }}/}{{ item.path }}
-      </div>
-      <span> {{ item.volume }} </span>
-    </div>
-    }
+    </ul>
   </article>
-  <article class="bg-sky-200 dark:bg-blue-900 flex flex-col p-2 rounded">
+  <article class="bg-blue-200 dark:bg-blue-900 flex flex-col p-2 rounded">
     <section class="bg-teal-500 flex flex-col p-4 rounded w-full">
       <div class="flex justify-between gap-4">
         <h3 class="font-lg font-bold">URL Editor</h3>
@@ -154,9 +160,10 @@
         class="bg-slate-300 dark:bg-slate-950 p-2 placeholder:text-slate-800 dark:placeholder:text-gray-600 rounded w-full"
       />
     </section>
+    <ul class="divide-y-2 divide-slate-800 dark:divide-white">
     @for (item of AssignedKeywords; track $index) {
-    <div
-      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-4"
+    <li
+      class="cursor-pointer flex justify-between items-center p-4"
       [ngClass]="{ 'bg-blue-400': item.selected }"
     >
       <div class="flex gap-4">
@@ -172,14 +179,16 @@
             'https://google.com/search?q=' + item.keyword.replace(' ', '+')
           "
           class="hover:underline"
+          target="_blank"
         >
           {{ item.keyword }}
         </a>
       </div>
       <span> {{ item.volume }} </span>
-    </div>
+    </li>
     } @empty {
-    <p>All keywords have been classified</p>
+    <li>All keywords have been classified</li>
     }
+    </ul>
   </article>
 </div>

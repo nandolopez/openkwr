@@ -81,7 +81,10 @@ export default class StructurerComponent implements OnInit {
       this.KEYWORDS[e.id].selected = false;
     });
     this.INPUT_SEARCH = '';
-    this.STRUCTURE[this.currentURLID].volume = volume;
+    this.STRUCTURE[this.currentURLID].volume = this.AssignedKeywords.reduce(
+      (sum: number, e: IKeyword) => sum + e.volume,
+      0
+    );
     this.onUpdateLocalhost();
   }
 
@@ -98,24 +101,23 @@ export default class StructurerComponent implements OnInit {
 
     const DESTINY = { ...this.FilteredURLs[INDEX] };
 
-    this.STRUCTURE[ORIGIN.id] = {...DESTINY}
-    this.STRUCTURE[DESTINY.id] = {...ORIGIN}
+    this.STRUCTURE[ORIGIN.id] = { ...DESTINY };
+    this.STRUCTURE[DESTINY.id] = { ...ORIGIN };
 
-    this.currentURLID = DESTINY.id
+    this.currentURLID = DESTINY.id;
 
     this.STRUCTURE.forEach(
       (e: IURL, index: number) => (this.STRUCTURE[index].id = index)
     );
-    this.onUpdateLocalhost()
+    this.onUpdateLocalhost();
   }
 
-  onClickButtonRemoveKeywordFromURL(id:number):void {
-    this.KEYWORDS[id].url = ''
-    this.STRUCTURE[this.currentURLID].volume -= this.KEYWORDS[id].volume
+  onClickButtonRemoveKeywordFromURL(id: number): void {
+    this.KEYWORDS[id].url = '';
+    this.STRUCTURE[this.currentURLID].volume -= this.KEYWORDS[id].volume;
   }
 
   onClickButtonRemoveURL() {
-
     const INDEX = this.FilteredURLs.findIndex(
       (e: IURL) => e.id === this.currentURLID
     );

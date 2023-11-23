@@ -312,6 +312,7 @@ export default class LoaderComponent implements OnInit {
         if (Number(values[this.input_volume_column - 1] < 1)) {
           keyword = 'null';
         }
+        if(keyword === '') keyword = 'null'
 
         return {
           id: 0,

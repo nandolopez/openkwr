@@ -27,9 +27,10 @@
         (input)="onInputSearch()"
       />
     </section>
+    <ul class="divide-y-2 divide-slate-800 dark:divide-white">
     @for (item of unclassifiedKeywords; track $index) {
-    <div
-      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-2"
+    <li
+      class="cursor-pointer flex justify-between p-2"
       [ngClass]="{ 'bg-blue-400': item.selected }"
       (click)="onClickKeyword(item.id)"
     >
@@ -40,13 +41,15 @@
             'https://google.com/search?q=' + item.keyword.replace(' ', '+')
           "
           class="hover:underline"
+          target="_blank"
         >
           {{ item.keyword }}
         </a>
       </div>
       <span> {{ item.volume }} </span>
-    </div>
-    } @empty { <p>All keywords have been classified</p> }
+    </li>
+    } @empty { <li>All keywords have been classified</li> }
+    </ul>
   </article>
   <article class="bg-blue-700 flex flex-col gap-4 p-4">
     <section class="flex flex-col gap-4">
@@ -66,9 +69,10 @@
         (input)="onInputSearch()"
       />
     </section>
+    <ul class="divide-y-2 divide-slate-800 dark:divide-white">
     @for (item of informationalKeywords; track $index) {
-    <div
-      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-2"
+    <li
+      class="cursor-pointer flex justify-between p-2"
       [ngClass]="{ 'bg-blue-400': item.selected }"
       (click)="onClickKeyword(item.id)"
     >
@@ -79,13 +83,15 @@
             'https://google.com/search?q=' + item.keyword.replace(' ', '+')
           "
           class="hover:underline"
+          target="_blank"
         >
           {{ item.keyword }}
         </a>
       </div>
       <span> {{ item.volume }} </span>
-    </div>
+    </li>
     }@empty { <p>No keywords classified as informational</p> }
+    </ul>
   </article>
   <article class="bg-teal-500 flex flex-col gap-4 p-4">
     <section class="flex flex-col gap-4">
@@ -105,9 +111,10 @@
         (input)="onInputSearch()"
       />
     </section>
+    <ul class="divide-y-2 divide-slate-800 dark:divide-white">
     @for (item of transactionaldKeywords; track $index) {
-    <div
-      class="border-b-2 border-b-slate-800 dark:border-b-white cursor-pointer flex justify-between p-2"
+    <li
+      class="cursor-pointer flex justify-between p-2"
       [ngClass]="{ 'bg-blue-400': item.selected }"
       (click)="onClickKeyword(item.id)"
     >
@@ -118,12 +125,14 @@
             'https://google.com/search?q=' + item.keyword.replace(' ', '+')
           "
           class="hover:underline"
+          target="_blank"
         >
           {{ item.keyword }}
         </a>
       </div>
       <span> {{ item.volume }} </span>
-    </div>
-    }@empty { <p>No keywords classified as transactional</p> }
+    </li>
+    }@empty { <li>No keywords classified as transactional</li> }
+  </ul>
   </article>
 </div>
